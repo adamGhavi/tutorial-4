@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://objects/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/tilesets/Tileset 2.tres" type="TileSet" id=2]
+[ext_resource path="res://objects/Friend.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/Familiar Looking Rocket.png" type="Texture" id=4]
+[ext_resource path="res://objects/Frog.tscn" type="PackedScene" id=5]
+
+[sub_resource type="RectangleShape2D" id=20]
+extents = Vector2( 1610, 40 )
+
+[sub_resource type="RectangleShape2D" id=21]
+extents = Vector2( 146, 240.25 )
+
+[node name="Level2" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 60, 56 )
+speed = 300
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 128, 64 )
+collision_layer = 3
+collision_mask = 3
+format = 1
+tile_data = PoolIntArray( 17, 0, 65542, 18, 0, 65544, 19, 0, 65545, 196607, 0, 65543, 131072, 0, 65544, 131073, 0, 65544, 131074, 0, 65544, 131075, 0, 65544, 131076, 0, 65545, 131077, 0, 65537, 131078, 0, 65537, 131079, 0, 65537, 131080, 0, 65543, 131081, 0, 65544, 131082, 0, 65544, 131083, 0, 65545, 131084, 0, 65537, 131085, 0, 65537, 131086, 0, 65537, 131087, 0, 65543, 131088, 0, 65544, 131089, 0, 9 )
+
+[node name="Friend" parent="." instance=ExtResource( 3 )]
+position = Vector2( -61, 114 )
+current_level = "Level2"
+
+[node name="Lose Trigger" type="Area2D" parent="."]
+position = Vector2( 1041, 544 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Lose Trigger"]
+shape = SubResource( 20 )
+
+[node name="Win Trigger" type="Area2D" parent="."]
+position = Vector2( 2432, -241 )
+
+[node name="Sprite" type="Sprite" parent="Win Trigger"]
+texture = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Win Trigger"]
+shape = SubResource( 21 )
+
+[node name="Frog" parent="." instance=ExtResource( 5 )]
+position = Vector2( 507, 34 )
+
+[connection signal="body_entered" from="Lose Trigger" to="Player" method="_on_Lose_Trigger_body_entered"]
+[connection signal="body_entered" from="Win Trigger" to="Player" method="_on_Win_Trigger_body_entered"]
